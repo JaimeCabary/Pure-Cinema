@@ -22,13 +22,13 @@ export default function AppLayout({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.15 }}
-        className={isWatchPage ? '' : 'px-4 lg:px-8 pt-20'}
+        transition={{ duration: 0.05 }}
+        className={isWatchPage ? '' : 'px-4 lg:px-8 pt-5'}
       >
         {isWatchPage ? (
           children
         ) : (
-          <main className="max-w-7xl mx-auto">
+          <main className="max-w-8xl">
             {children}
           </main>
         )}
