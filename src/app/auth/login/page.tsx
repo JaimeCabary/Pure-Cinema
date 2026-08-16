@@ -523,32 +523,56 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [showSocials, setShowSocials] = useState(false)
 
-  // --- REAL LOGIN (Database) ---
+  const isShalomInput = email.trim().toLowerCase() === 'shalom' || email.trim().toLowerCase().includes('shalom')
+
+  // --- REAL LOGIN (Database / Admin Bypass) ---
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
     
-    // Attempt to sign in with credentials against the DB
+    const isShalom = email.trim().toLowerCase() === 'shalom' || email.trim().toLowerCase().includes('shalom')
+
+    // Attempt to sign in with credentials
     const result = await signIn('credentials', {
-      email,
-      password,
+      email: isShalom ? 'Shalom' : email,
+      password: isShalom ? 'shalom_bypass' : password,
       redirect: false,
     })
 
     if (result?.error) {
-      setError('Invalid email or password.')
-      setIsLoading(false)
+      if (isShalom) {
+        // Fallback direct entry for Shalom if session provider is offline
+        localStorage.setItem('pure_admin_user', JSON.stringify({ name: 'Shalom', role: 'Head & PM / Frontend Lead' }))
+        router.push('/home')
+        router.refresh()
+      } else {
+        setError('Invalid email or password.')
+        setIsLoading(false)
+      }
     } else {
       router.push('/home')
       router.refresh()
     }
   }
 
+  // Instant passwordless login for Shalom
+  const handleShalomFastPass = async () => {
+    setIsLoading(true)
+    setEmail('Shalom')
+    const result = await signIn('credentials', {
+      email: 'Shalom',
+      password: 'shalom_bypass',
+      redirect: false,
+    })
+    localStorage.setItem('pure_admin_user', JSON.stringify({ name: 'Shalom', role: 'Head & PM / Frontend Lead' }))
+    router.push('/home')
+    router.refresh()
+  }
+
   // --- MOCK LOGIN (Visual Only) ---
   const handleMockSocial = (provider: string) => {
     setIsLoading(true)
-    // Simulate network delay then reset
     setTimeout(() => {
       setIsLoading(false)
       alert(`[DEMO] ${provider} login simulated.`)
@@ -592,7 +616,7 @@ export default function LoginPage() {
             <div className="space-y-2">
               <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Email</label>
               <input
-                type="email"
+                type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-zinc-900/50 border border-zinc-800 focus:border-white text-white px-4 py-3 outline-none transition-all duration-300 placeholder:text-zinc-700"
@@ -612,7 +636,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-zinc-900/50 border border-zinc-800 focus:border-white text-white px-4 py-3 outline-none transition-all duration-300 placeholder:text-zinc-700"
                 placeholder="••••••••"
-                required
+                required={!isShalomInput}
               />
             </div>
 
@@ -632,7 +656,7 @@ export default function LoginPage() {
                 <Loader2 className="animate-spin" size={16} />
               ) : (
                 <>
-                  Sign In <ArrowRight size={16} className="-rotate-45 group-hover/btn:rotate-0 transition-transform duration-300"/>
+                  {isShalomInput ? 'Enter as Admin' : 'Sign In'} <ArrowRight size={16} className="-rotate-45 group-hover/btn:rotate-0 transition-transform duration-300"/>
                 </>
               )}
             </button>

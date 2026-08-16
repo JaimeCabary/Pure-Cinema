@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        scoredream: ['S-CoreDream', 'var(--font-geist-sans)', 'sans-serif'],
+      },
       colors: {
         black: {
           50: '#f7f7f7',

@@ -412,13 +412,14 @@ import {
   User, 
   Download, 
   Library,
-  Home
+  Home,
+  Tv
 } from 'lucide-react'
-// Assuming CinemaLogo is in your shared folder, otherwise use text
 import { CinemaLogo } from '../shared/CinemaLogo'
 
 const navItems = [
   { href: '/home', label: 'Home', icon: Home },
+  { href: '/tv', label: 'Live TV', icon: Tv, isLive: true },
   { href: '/search', label: 'Search', icon: Search },
   { href: '/watchlist', label: 'Watchlist', icon: Library },
   { href: '/downloads', label: 'Downloads', icon: Download },
@@ -439,50 +440,49 @@ export function AppNav() {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        // Reduced py-4/py-6 to py-3/py-4 for a slimmer look
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 border-b ${
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
           scrolled 
-            ? 'bg-[#030303]/90 backdrop-blur-xl border-white/5 py-2' 
-            : 'bg-transparent border-transparent py-3 md:py-4'
+            ? 'bg-[#030303]/90 backdrop-blur-xl border-b border-white/10 py-3 shadow-2xl' 
+            : 'bg-gradient-to-b from-black/80 via-black/30 to-transparent py-4 md:py-5'
         }`}
       >
-        <div className="max-w-screen-2xl mx-auto px-4 md:px-12">
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-10">
           <div className="flex items-center justify-between">
             
             {/* BRAND */}
             <Link href="/home" className="group flex items-center gap-3 z-50 relative">
-              <div className="relative w-7 h-7 flex items-center justify-center">
+              <div className="relative w-8 h-8 flex items-center justify-center">
                  <div className="absolute inset-0 bg-white/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                  <div className="relative z-10 text-white scale-90">
                     <CinemaLogo /> 
                  </div>
               </div>
-              <span className="font-light tracking-[0.2em] text-xs text-white uppercase group-hover:tracking-[0.25em] transition-all duration-500 hidden sm:block">
+              <span className="font-bold tracking-[0.2em] text-xs text-white uppercase group-hover:tracking-[0.25em] transition-all duration-500 hidden sm:block">
                 Pure Cinema
               </span>
             </Link>
 
-            {/* CENTER NAV - Made simpler/smaller */}
-            <div className="hidden md:flex items-center p-1 rounded-full border border-white/5 bg-black/40 backdrop-blur-md shadow-2xl">
+            {/* CENTER NAV - Crisp & Minimalist */}
+            <div className="hidden md:flex items-center p-1 rounded-full border border-white/10 bg-zinc-950/90 shadow-lg">
               {navItems.map((item) => {
-                const isActive = pathname === item.href
+                const isActive = pathname === item.href || (item.href !== '/home' && pathname?.startsWith(item.href))
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`relative px-4 py-1.5 text-[11px] font-medium tracking-wide transition-all duration-300 ${
-                      isActive ? 'text-black' : 'text-zinc-400 hover:text-white'
+                    className={`relative px-4 py-1.5 text-xs font-semibold tracking-wide transition-colors duration-200 flex items-center gap-1.5 ${
+                      isActive ? 'text-black font-bold' : 'text-zinc-400 hover:text-white'
                     }`}
                   >
                     {isActive && (
                       <motion.div
                         layoutId="nav-pill-desktop"
-                        className="absolute inset-0 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        className="absolute inset-0 bg-white rounded-full"
+                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
                       />
                     )}
-                    <span className="relative z-10 flex items-center gap-2">
+                    <span className="relative z-10 flex items-center gap-1.5">
                       {item.label}
                     </span>
                   </Link>

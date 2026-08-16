@@ -194,12 +194,14 @@ import { MotionDiv } from '@/components/shared/Motion'
 import Link from 'next/link'
 import { ArrowRight, PlayCircle } from 'lucide-react'
 import { HeroVideoCarousel } from '@/components/marketing/HeroVideoCarousel'
+import { ShalomKeyShortcut } from '@/components/marketing/ShalomKeyShortcut'
 
 export default async function MarketingPage() {
   const movies = await fetchTrending()
 
   return (
     <div className="bg-black min-h-screen selection:bg-white selection:text-black">
+      <ShalomKeyShortcut />
       
       {/* SECTION 1: HERO (Grid Background Replaces Video) */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -235,20 +237,20 @@ export default async function MarketingPage() {
               absolute <span className="text-white">4K fidelity.</span>
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link 
-                href="/home" 
-                className="group relative px-8 py-4 bg-white text-black text-sm font-bold tracking-widest uppercase overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-zinc-200 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                <span className="relative flex items-center gap-2">
-                  Enter Platform <ArrowRight size={16} />
-                </span>
-              </Link>
-              
-              <button className="flex items-center gap-3 text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest px-8 py-4">
-                <PlayCircle size={18} /> Watch Showreel
-              </button>
+            <div className="flex flex-col items-center justify-center gap-4">
+              {/* Mobile-only Enter Platform button */}
+              <div className="flex md:hidden items-center justify-center">
+                <Link 
+                  href="/home" 
+                  prefetch={true}
+                  className="group relative px-8 py-4 bg-white text-black text-sm font-bold tracking-widest uppercase overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-zinc-200 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  <span className="relative flex items-center gap-2">
+                    Enter Platform <ArrowRight size={16} />
+                  </span>
+                </Link>
+              </div>
             </div>
           </MotionDiv>
         </div>

@@ -463,27 +463,51 @@ import { Plus, Minus, Star, Quote } from 'lucide-react'
 const team = [
   { 
     name: 'Shalom Ebere Chidi-Azuwike', 
-    role: 'Founder & Head Engineer', 
-    prev: '21 • Software Engineering Student',
+    role: 'Project Lead / PM & Frontend Lead', 
+    prev: 'Head Architect & Engineering Lead',
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&q=80'
+  },
+  { 
+    name: 'Ikenna', 
+    role: 'Core Engineering & Systems', 
+    prev: 'Backend & Edge Infrastructure',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80'
   },
   { 
-    name: 'Rain Kaludgan', 
-    role: 'CFO', 
-    prev: 'Ex-Logistics',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&q=80'
+    name: 'Joshua', 
+    role: 'Core Engineering & Cloud Pipeline', 
+    prev: 'Database & Streaming Architecture',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&q=80'
   },
   { 
-    name: 'James W.', 
-    role: 'Lead Architect', 
-    prev: 'Ex-SpaceX',
+    name: 'Izuchukwu', 
+    role: 'Core Engineering & Network Edge', 
+    prev: 'Performance & Optimization',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&q=80'
+  },
+  { 
+    name: 'Golden', 
+    role: 'Core Engineering & UI Experience', 
+    prev: 'Interactive Components & Motion',
+    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&q=80'
+  },
+  { 
+    name: 'Emmanuel', 
+    role: 'Core Engineering & Media Delivery', 
+    prev: 'Video Decoding & Adaptive HLS',
     image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&q=80'
   },
   { 
-    name: 'Sarah K.', 
-    role: 'Content', 
-    prev: 'Ex-A24',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&q=80'
+    name: 'Kenneth (31 Savage)', 
+    role: 'Core Engineering & Security', 
+    prev: 'Auth & Data Security',
+    image: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400&h=400&fit=crop&q=80'
+  },
+  { 
+    name: 'Onyedikachukwu', 
+    role: 'Core Engineering & Product Quality', 
+    prev: 'QA, Telemetry & Diagnostics',
+    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=400&fit=crop&q=80'
   },
 ]
 
@@ -651,7 +675,7 @@ export default function AboutPage() {
         <section className="mb-40">
           <div className="flex items-center justify-between mb-12 border-b border-white/10 pb-4">
             <h2 className="text-2xl font-light">The Architects</h2>
-            <span className="text-zinc-500">04</span>
+            <span className="text-zinc-500">08</span>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

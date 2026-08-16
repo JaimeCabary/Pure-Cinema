@@ -12,15 +12,19 @@ model User {
   name         String?
   avatar       String?
   passwordHash String?
+  role         String    @default("USER") // 'ADMIN' | 'USER'
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   
   watchlist     Watchlist[]
   watchHistory  WatchHistory[]
   downloads     Download[]
+  channelFavorites LiveChannelFavorite[]
   
   accounts      Account[]
   sessions      Session[]
+
+  @@index([email])
 }
 
 model Account {
@@ -36,9 +40,10 @@ model Account {
   scope             String?
   id_token          String?  @db.Text
   session_state     String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -47,6 +52,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model VerificationToken {
@@ -65,9 +72,10 @@ model Watchlist {
   posterPath String?
   addedAt    DateTime @default(now())
   
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   @@unique([userId, movieId])
+  @@index([userId, addedAt(sort: Desc)])
 }
 
 model WatchHistory {
@@ -76,24 +84,43 @@ model WatchHistory {
   movieId     String
   movieTitle  String
   posterPath  String?
-  progress    Float
+  progress    Float    // Timestamp in seconds
   lastWatched DateTime @default(now())
   
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   @@unique([userId, movieId])
+  @@index([userId, lastWatched(sort: Desc)])
+}
+
+model LiveChannelFavorite {
+  id          String   @id @default(cuid())
+  userId      String
+  channelId   String
+  channelName String
+  channelLogo String?
+  group       String?
+  addedAt     DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, channelId])
+  @@index([userId, addedAt(sort: Desc)])
 }
 
 model Download {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   userId       String
   movieId      String
   movieTitle   String
-  quality      String
+  quality      String    // '4K' | '1080p' | '720p'
   fileSize     Int?
-  status       String   // 'downloading' | 'completed' | 'failed' | 'queued'
+  status       String    // 'downloading' | 'completed' | 'failed' | 'queued'
   progress     Float
-  createdAt    DateTime @default(now())
+  createdAt    DateTime  @default(now())
   downloadedAt DateTime?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
 }
